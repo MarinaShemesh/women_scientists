@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="peopleApp">
+<head>
+  <meta charset="UTF-8">
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto'>
+    <link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Female scientists</title>
+</head>
+<body layout="column" ng-controller="UserController as ul">
+
+<!--   Toolbar -->
+  <md-toolbar layout="row">
+    <md-button
+        hide-gt-sm
+        class="menu"
+        ng-click="ul.openSidebar()" aria-label="Browse Users">
+      <md-icon md-svg-icon="menu"></md-icon>
+    </md-button>
+
+   
+  <h3>FEMALE SCIENTISTS THROUGHOUT HISTORY</h3>
+ 
+
+ </md-toolbar>
+
+ <div flex layout="row">
+       <!-- Sidenav -->
+    <md-sidenav md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" ng-click="ul.openSidebar()" class="md-whiteframe-4dp">
+
+        <md-list>
+          <md-content layout-padding class="autocomplete">
+                <form>
+                    <md-autocomplete
+                            md-selected-item="ul.selectedItem"
+                            md-search-text-change="ul.searchTextChange(ul.searchText)"
+                            md-search-text="ul.searchText"
+                            md-items="item in ul.listData[0] | filter:ul.searchText"
+                            md-item-text="item.first_name"
+                            md-min-length="0"
+                            placeholder="Who are you looking for?">
+                        <md-item-template>
+                            <span md-highlight-text="ul.searchText" md-highlight-flags="^i">{{item.first_name}} {{item.last_name}}</span>
+                        </md-item-template>
+                    </md-autocomplete>
+                </form>
+            </md-content>
+
+            <md-list-item ng-repeat="person in ul.listData[0] | filter:ul.searchText">
+                <md-button ng-click="ul.selectUser(person)" ng-class="{'selected' : person === ul.selected }">
+                    <img ng-src='{{person.avatar}}' class='avatar'> 
+                     <h3>{{person.first_name}} {{person.last_name}}</h3>
+                </md-button>
+            </md-list-item>
+        </md-list>
+    </md-sidenav>
+
+ <!-- Main content-->
+  
+   <md-content flex id="content">
+          <img ng-src="{{ul.selected.avatar}}" class="avatar"/>
+          <h1>{{ul.selected.first_name}} {{ul.selected.last_name}}</h1>
+          <h2>{{ul.selected.country}}</h2>
+          <h4>{{ul.selected.born}}</h4>
+          <h3>Field: {{ul.selected.field}}</h3> 
+         <p>{{ul.selected.description}}<h3></p><a href="{{ul.selected.link}}" target='_blank'>More info</a></h3>
+   </md-content>
+
+  
+</div>
+<script src="node_modules/angular/angular.js"></script>
+<script src="node_modules/angular-animate/angular-animate.js"></script>
+<script src="node_modules/angular-aria/angular-aria.js"></script>
+<script src="node_modules/angular-material/angular-material.js"></script>
+<!-- <script src="angular-ui-router/release/angular-ui-router.js"></script> -->
+<script src="js/app.js"></script>
+<script src="js/components/personelController.js"></script>
+<script src="js/components/personelService.js"></script>
+</body>
+</html>
